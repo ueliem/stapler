@@ -15,7 +15,16 @@ impl<'a> Node<'a> {
     self.render_open() + self.render_close()
   }
   fn render_children(&self) -> String {
-    String::new()
+    match self.children {
+      Some(children) => {
+        let mut s = String::new();
+        for child in children.iter() {
+          s = s.append(child.render_all().as_slice());
+        }
+        return s;
+      },
+      None => String::new()
+    }
   }
   fn render_self_and_children(&self) -> String {
     self.render_open() + self.render_children() + self.render_close()
@@ -26,8 +35,11 @@ impl<'a> Node<'a> {
 }
 
 pub fn render_nodes(nodes: &[Node]) {
+  // for index in range(0, nodes.len()) {
+  //   println!("{}", nodes[index]);
+  // }
   for index in range(0, nodes.len()) {
-    println!("{}", nodes[index]);
+    println!("{}", nodes[index].render_all());
   }
 }
 
